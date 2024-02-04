@@ -1,6 +1,6 @@
 ﻿namespace Mawo.EKiosk.Test.MessageHandlers;
 
-internal interface IMessageHandler
+public interface IMessageHandler
 {
-	object? HandleMessage(Message message);
+	Message? HandleMessage(Message message);
 }

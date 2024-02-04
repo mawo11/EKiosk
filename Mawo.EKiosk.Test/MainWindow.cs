@@ -12,12 +12,15 @@ namespace Mawo.EKiosk.Test;
 internal class MainWindow : PhotinoWindow
 {
 	private readonly ILogger _logger;
+	private readonly IMessageManager _messageManager;
 
 	[RequiresUnreferencedCode("Calls Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue<T>(String, T)")]
 	public MainWindow(IConfiguration configuration,
-		ILogger logger) : base(null)
+		ILogger logger,
+		IMessageManager messageManager) : base(null)
 	{
 		_logger = logger;
+		_messageManager = messageManager;
 
 		FullScreen = true;
 		Chromeless = true;
@@ -45,13 +48,13 @@ internal class MainWindow : PhotinoWindow
 		try
 		{
 			Message? sourceMessage = JsonSerializer.Deserialize<Message>(serializedMessage, SourceGenerationContext.Default.Message);
-
-			//TODO: message handlers manager
-			Message responseMessage = new()
+			if (sourceMessage is null)
 			{
-				Event = $"{sourceMessage?.Event}-response",
-				Payload = $"Response from app: {DateTime.Now.Ticks}"
-			};
+				_logger.LogWarning("Failed to deserialize message: \"{message}\"", serializedMessage);
+				return;
+			}
+
+			Message? responseMessage = _messageManager.HandleMessage(sourceMessage);
 
 			if (responseMessage is not null)
 			{

@@ -1,3 +1,4 @@
+using Mawo.EKiosk.Test.MessageHandlers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -34,6 +35,9 @@ internal static class Program
 		services.AddSingleton<MainWindow>();
 		services.AddSingleton<IConfiguration>(configuration);
 		services.AddSingleton(loggerFactory.CreateLogger("EKiosk"));
+		services.AddSingleton<IMessageManager, MessageManager>();
+		services.AddTransient<TestMessage>();
+
 
 		using ServiceProvider serviceProvider = services.BuildServiceProvider();
 
