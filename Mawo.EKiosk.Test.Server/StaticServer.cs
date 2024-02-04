@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
+﻿using Microsoft.Extensions.FileProviders;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
 
 namespace Mawo.EKiosk.Test.Server;
 
-internal class StaticServer
+public static class StaticServer
 {
 	public static WebApplication CreateStaticFileServer(string[] args, int startPort, int portRange, out string baseUrl)
 	{

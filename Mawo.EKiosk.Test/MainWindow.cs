@@ -3,10 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PhotinoNET;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
 
 namespace Mawo.EKiosk.Test;
 
@@ -14,22 +11,6 @@ namespace Mawo.EKiosk.Test;
 [RequiresDynamicCode("Calls System.Text.Json.JsonSerializer.Deserialize<TValue>(JsonSerializerOptions)")]
 internal class MainWindow : PhotinoWindow
 {
-	private static readonly JsonSerializerOptions defaultSerializerOptions = new JsonSerializerOptions
-	{
-		TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
-		AllowTrailingCommas = true,
-		PropertyNameCaseInsensitive = true,
-		ReadCommentHandling = JsonCommentHandling.Skip,
-		Converters = {
-			new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-		},
-		MaxDepth = 64,
-		IncludeFields = true,
-		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-		NumberHandling = JsonNumberHandling.AllowReadingFromString,
-		Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-	};
-
 	private readonly ILogger _logger;
 
 	[RequiresUnreferencedCode("Calls Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue<T>(String, T)")]
